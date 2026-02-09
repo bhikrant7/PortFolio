@@ -1,11 +1,13 @@
+
+
 /*==================== toggle icon navbar ====================*/
 let menuIcon = document.querySelector('#menu-icon');
 let navbar = document.querySelector('.navbar');
 
-menuIcon.onclick = () =>{
+menuIcon.onclick = () => {
     menuIcon.classList.toggle('bx-x');
     navbar.classList.toggle('active');
-};  
+};
 
 /*==================== scroll sections active link ====================*/
 let sections = document.querySelectorAll('section');
@@ -29,7 +31,7 @@ window.onscroll = () => {
     //STICKY NAVBAR
     let header = document.querySelector('header');
 
-    header.classList.toggle('sticky',window.scrollY>100);
+    header.classList.toggle('sticky', window.scrollY > 100);
 
     /*====================remove Toggle icon navbar when click navbar link====================*/
     menuIcon.classList.remove('bx-x');
@@ -37,25 +39,57 @@ window.onscroll = () => {
 };
 
 /*==================== scroll reveal ====================*/
-ScrollReveal({ 
+ScrollReveal({
     reset: true,
     distance: '80px',
     duration: 2000,
     delay: 200
 });
 
-ScrollReveal().reveal('.home-content, .heading',{ origin: 'top' });
-ScrollReveal().reveal('.home-img,.services-container, .portfolio-box, .contact form',{ origin: 'bottom' });
-ScrollReveal().reveal('.home-content h1,.about-img',{ origin: 'left' });
-ScrollReveal().reveal('.home-content p,.about-content',{ origin: 'right' });
+ScrollReveal().reveal('.experience-box', { origin: 'bottom', interval: 200 });
+ScrollReveal().reveal('.home-content, .heading', { origin: 'top' });
+ScrollReveal().reveal('.home-img,.services-container, .portfolio-box, .contact form', { origin: 'bottom' });
+ScrollReveal().reveal('.home-content h1,.about-img', { origin: 'left' });
+ScrollReveal().reveal('.home-content p,.about-content', { origin: 'right' });
 
 
-/*==================== typed js ====================*/   
+
+/*==================== typed js ====================*/
 
 const typed = new Typed('.multiple-text', {
-    strings: ['FullStack Developer','ML Enthusiast','Student'],
+    strings: ['FullStack Developer', 'ML Enthusiast', 'Student'],
     typeSpeed: 100,
     backSpeed: 100,
     backDelay: 1000,
     loop: true
 });
+
+//handle submit contact form
+const form = document.getElementById("contact-form");
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    emailjs.sendForm(
+        "service_llexy91",
+        "template_dya7m6e",
+        this
+    ).then(() => {
+        showToast("✅ Message sent successfully!", "success");
+        form.reset();
+    }).catch((error) => {
+        showToast("❌ Failed to send message. Try again later.", "error");
+        console.error(error);
+    });
+});
+
+function showToast(message, type = "success") {
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
